@@ -41,3 +41,6 @@ example
 # generated native folders
 /ios
 /android
+
+# seeds workflow: orphan sessions branch checkout (DEC-S014)
+.sessions-worktree/
