@@ -1,0 +1,32 @@
+name: CI
+
+# Gates every PR (the automated half of the QA plan — see docs/QA_AND_DEPLOYMENT.md).
+# Native app: no Playwright, no database, no Vercel preview. Just the checks that
+# run on a laptop — typecheck, lint, unit tests. On-device verification is manual.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test -- --ci
