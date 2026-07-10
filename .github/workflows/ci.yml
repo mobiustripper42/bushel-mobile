@@ -3,6 +3,12 @@ name: CI
 # Gates every PR (the automated half of the QA plan — see docs/QA_AND_DEPLOYMENT.md).
 # Native app: no Playwright, no database, no Vercel preview. Just the checks that
 # run on a laptop — typecheck, lint, unit tests. On-device verification is manual.
+#
+# Typed-routes caveat: app.json sets experiments.typedRoutes, whose defs
+# (.expo/types/router.d.ts) are generated only by Metro (expo start/export) and
+# stay gitignored. CI never boots Metro, so `Href` typechecks against expo-router's
+# looser fallback here. Once route/`Link` code lands, add an `npx expo export`
+# (or type-gen) step before typecheck to close the gap. See QA runbook § Layer 1.
 on:
   pull_request:
   push:

@@ -33,6 +33,13 @@ Only layer 1 is automated. The rest happen on a physical phone — there is no
   `typecheck` + `lint` + `test` on every PR. Red CI = the PR doesn't merge.
 - It does **not** prove the app *looks right* or that push works — that's what a
   phone is for.
+- **Typed-routes caveat:** `app.json` enables `experiments.typedRoutes`. The route
+  type defs (`.expo/types/router.d.ts`) are generated only when Metro runs (`expo
+  start`/`expo export`) and are gitignored. CI never boots Metro, so its
+  `typecheck` sees expo-router's *looser* `Href` fallback — a local machine that
+  has run `expo start` at least once typechecks a stricter surface. Harmless while
+  there's no route code; once we add screens with `<Link>`/`router.push`, add an
+  `npx expo export` (or type-gen) step to CI before `typecheck` to close the gap.
 
 ### Layer 2 — Live dev testing on a phone (Expo Go)
 
