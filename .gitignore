@@ -7,7 +7,10 @@ node_modules/
 .expo/
 dist/
 web-build/
-expo-env.d.ts
+# expo-env.d.ts is normally auto-generated + gitignored, but we commit it so CI
+# can typecheck without booting Metro (it carries the expo/types reference that
+# declares *.css / *.module.css imports). See docs/QA_AND_DEPLOYMENT.md.
+# expo-env.d.ts
 
 # Native
 .kotlin/
